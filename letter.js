@@ -1,47 +1,46 @@
-//REQUIREMENTS//
-//letter.js will be a constructor file
-//should control whether or not a letter appears as a "_" or as itself on-screen.
-//requires game.js for the random word
-/////
+var MysteryWord = require('./game.js');
+var guesses = 10;
 
+function Letter(){
+};
 
-//so we're able to get the random word from the game.js file
-var randomWord = require('./game.js');
+Letter.prototype.Hangman = function(outcome, theWord, lettersInWord){
+	
+	var hangmanBlanks = " ";
 
-// //check, check.... this works!
-// console.log("The word is: "+randomWord);
-// console.log("It is "+randomWord.length+ " letters long.");
+	for(var i=0; i<theWord.length; i++){
+		var found = lettersInWord.indexOf(theWord.charAt(i))>-1;
+		if(found) {
+			hangmanBlanks += theWord.charAt(i)+" ";
+		}
+		else {
+			hangmanBlanks += "_ ";
+		}
+	}
+	console.log("");
+	console.log(hangmanBlanks.bgCyan);
+	console.log("");
 
+	if(outcome == "incorrect"){
+		guesses--;
+	}
+	console.log("Guesses remaining: "+guesses);
 
-// //split word into letters, put letters in an array
-// var splitWord = randomWord.split('');
-// console.log(splitWord);
+	//if there are no more blanks to fill, you win
+	if(hangmanBlanks.indexOf("_") == -1){
+		console.log("----------------------------------------".rainbow);
+		console.log(">> You win! :) The word was "+ MysteryWord+".".cyan);
+		console.log("----------------------------------------".rainbow);
+		process.exit();
+	}
 
+	//if you run out of guesses, you lose
+	if(guesses==0){
+		console.log("----------------------------------------".rainbow);
+		console.log(">> You lose. :( The word was "+ MysteryWord+".".cyan);
+		console.log("----------------------------------------".rainbow);
+		process.exit();
+	}
+};
 
-
-var blanks = "";
-// for (var i=0; i<splitWord.length; i++){
-//     blanks = blanks + '_ ';
-// }
-// console.log(blanks);
-
-// //need to be able to export the word to other files....
-// module.exports = blanks;
-
-function idk(theWord){
-    this.theWord = theWord,
-    this.wordLen = theWord.length,
-    this.letterArr = theWord.split(''),
-    this.blanks = function(){
-        for (var i=0; i<this.wordLen; i++){
-            blanks = blanks + '_ ';
-        }
-        console.log(blanks);
-    };
-}
-
-// var ooh = new idk(randomWord);
-// console.log(ooh);
-// ooh.blanks();
-
-module.exports = idk;
+module.exports = Letter;
