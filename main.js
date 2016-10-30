@@ -11,7 +11,6 @@ var colors = require('colors');
 //new game starts when word blanks are printed
 printBlanks(MysteryWord);
 
-//prints the blanks at the beginning of the game
 function printBlanks (currentWord) {
     console.log("---------------------------".rainbow);
     console.log("");

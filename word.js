@@ -1,4 +1,3 @@
-//all the prompting happens here
 var inquirer=require('inquirer');
 
 //uses Letter prototype
